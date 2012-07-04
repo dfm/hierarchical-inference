@@ -1,4 +1,4 @@
-hierarchical-inference
+Hierarchical Inference
 ======================
 
-A note about how hierarchical inference will save the world.
+Coming soon to an inference near you.
