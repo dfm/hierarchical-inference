@@ -1,0 +1,77 @@
+\documentclass[12pt,preprint]{aastex}
+
+\usepackage{color,hyperref}
+\definecolor{linkcolor}{rgb}{0,0,0.5}
+\hypersetup{colorlinks=true,linkcolor=linkcolor,citecolor=linkcolor,
+            filecolor=linkcolor,urlcolor=linkcolor}
+
+\usepackage{url}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+
+\newcommand{\arxiv}[1]{\href{http://arxiv.org/abs/#1}{arXiv:#1}}
+
+\newcommand{\project}[1]{{\sffamily #1}}
+
+\newcommand{\foreign}[1]{\emph{#1}}
+\newcommand{\etal}{\foreign{et\,al.}}
+\newcommand{\etc}{\foreign{etc.}}
+\newcommand{\documentname}{\textsl{Note}}
+
+\newcommand{\Fig}[1]{Figure~\ref{fig:#1}}
+\newcommand{\fig}[1]{\Fig{#1}}
+\newcommand{\figlabel}[1]{\label{fig:#1}}
+\newcommand{\Tab}[1]{Table~\ref{tab:#1}}
+\newcommand{\tab}[1]{\Tab{#1}}
+\newcommand{\tablabel}[1]{\label{tab:#1}}
+\newcommand{\Eq}[1]{Equation~(\ref{eq:#1})}
+\newcommand{\eq}[1]{\Eq{#1}}
+\newcommand{\eqlabel}[1]{\label{eq:#1}}
+\newcommand{\Sect}[1]{Section~\ref{sect:#1}}
+\newcommand{\sect}[1]{\Sect{#1}}
+\newcommand{\App}[1]{Appendix~\ref{sect:#1}}
+\newcommand{\app}[1]{\App{#1}}
+\newcommand{\sectlabel}[1]{\label{sect:#1}}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\bvec}[1]{\boldsymbol{#1}}
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\title{A note on hierarchical inference \& the distances to K giants}
+
+\author{Daniel~Foreman-Mackey\altaffilmark{\ref{CCPP},\ref{email}} \etal}
+
+\newcounter{address}
+\setcounter{address}{1}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{CCPP} Center
+  for Cosmology and Particle Physics, Department of Physics, New York
+  University, 4 Washington Place, New York, NY 10003}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{email} To whom
+  correspondence should be addressed: \texttt{danfm@nyu.edu}}
+% \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIA}
+%   Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, D-69117
+%   Heidelberg, Germany}
+
+\begin{abstract}
+\end{abstract}
+
+\keywords{%
+    methods: data analysis ---
+    methods: statistical
+}
+
+\clearpage
+
+\section{The basic hierarchical problem}
+
+
+\acknowledgements It is a pleasure to thank\ldots
+
+% \begin{thebibliography}{}\raggedright
+
+% \end{thebibliography}
+
+\end{document}
