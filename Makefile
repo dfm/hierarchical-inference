@@ -2,14 +2,22 @@ include Makefile.inc
 
 # Enter the name(s) of the .tex file(s) that you want to compile.
 TEX_FILES = hierarchical
+DIRS      = gm
 
 # You shouldn't need to edit below here.
-default: ${DOCS}
+default: subdirs ${DOCS}
 
 .tex.pdf:
 	${LATEX} $*.tex
 	( ${CHECK_RERUN} && ${LATEX} $*.tex ) || echo "Done."
 	( ${CHECK_RERUN} && ${LATEX} $*.tex ) || echo "Done."
 
+subdirs: force_look
+	$(foreach d, ${DIRS}, (echo "Looking into ${d}:"; cd ${d}; ${MAKE} ${MFLAGS}) )
+
+force_look:
+	true
+
 clean:
-	$(foreach d, ${TEX_FILES}, $(RM_TMP))
+	$(RM_TMP)
+	$(foreach d, ${DIRS}, (echo "Cleaning ${d}:"; cd ${d}; $(MAKE) clean) )

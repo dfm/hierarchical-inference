@@ -10,4 +10,3 @@ default: ${DOCS}
 
 clean:
 	${RM_TMP}
-
