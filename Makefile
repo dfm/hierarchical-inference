@@ -6,10 +6,10 @@ TEX_FILES = hierarchical
 # You shouldn't need to edit below here.
 default: ${DOCS}
 
-%.pdf: %.tex
-	${LATEX} $<
-	( ${CHECK_RERUN} && ${LATEX} $< ) || echo "Done."
-	( ${CHECK_RERUN} && ${LATEX} $< ) || echo "Done."
+.tex.pdf:
+	${LATEX} $*.tex
+	( ${CHECK_RERUN} && ${LATEX} $*.tex ) || echo "Done."
+	( ${CHECK_RERUN} && ${LATEX} $*.tex ) || echo "Done."
 
 clean:
 	$(foreach d, ${TEX_FILES}, $(RM_TMP))

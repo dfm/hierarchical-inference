@@ -1,3 +1,6 @@
+.SUFFIXES:
+.SUFFIXES: .pdf .tex
+
 LATEX       = pdflatex
 RM          = rm -rf
 

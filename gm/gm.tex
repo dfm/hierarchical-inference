@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage{ifthen}
+\usepackage{pst-all}
+\usepackage{auto-pst-pdf}
+\usepackage{com.braju.graphicalmodels}
+\catcode`\@=11%
+\pagestyle{empty}
+\begin{document}
+
+\newlength{\gmunit}
+\setlength{\gmunit}{12mm}
+
+\TeXtoEPS
+\psset{unit=\gmunit,arrowscale=1.5}
+\SpecialCoor
+
+% node utils
+\newcommand{\node}[4]{\rput(#1){\GM@node[nodeSize=\gmunit]{#3}}\GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\dnode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit]{#3}}\rput(#1){\GM@node[nodeSize=0.9\gmunit]{nil}}\GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\onode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit,observed=true,observedColor=lightgray]{#3}}\GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\qnode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit,query=true]{#3}}\GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\darr}[2]{\ncline[arrows=->]{#1}{#2}}
+
+\begin{pspicture}(0,0)(10,6)
+% \showgrid
+
+\node{1,5}{-0.12}{a2}{A}
+\node{1,3}{-0.12}{b2}{B}
+\node{0,1}{-0.12}{c2}{C}
+\node{2,1}{-0.12}{d2}{D}
+
+\darr{a2}{b2}
+\darr{b2}{c2}
+\darr{b2}{d2}
+
+\node{5,5}{-0.12}{a3}{C}
+\node{5,3}{-0.12}{b3}{B}
+\node{4,1}{-0.12}{c3}{A}
+\node{6,1}{-0.12}{d3}{D}
+
+\darr{a3}{b3}
+\darr{b3}{c3}
+\darr{b3}{d3}
+
+\node{9,5} {-0.12}{a4}{D}
+\node{9,3} {-0.12}{b4}{B}
+\node{8,1} {-0.12}{c4}{A}
+\node{10,1}{-0.12}{d4}{C}
+
+\darr{a4}{b4}
+\darr{b4}{c4}
+\darr{b4}{d4}
+
+\node{12,2} {-0.12}{a4}{D}
+\node{13,4} {-0.12}{b4}{B}
+\node{13,1} {-0.12}{c4}{A}
+\node{14,2}{-0.12}{d4}{C}
+
+\darr{b4}{a4}
+\darr{b4}{c4}
+\darr{b4}{d4}
+
+\end{pspicture}
+\endTeXtoEPS
+\end{document}
+
