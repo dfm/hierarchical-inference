@@ -34,15 +34,26 @@
 \newcommand{\sectlabel}[1]{\label{sect:#1}}
 
 \newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\pr}[1]{p ( #1 )}
 \newcommand{\bvec}[1]{\boldsymbol{#1}}
 \newcommand{\unit}[1]{\,\mathrm{#1}}
 \DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\dfmplot}[5]{%
+\begin{center}%
+\includegraphics[width=0.5\textwidth,trim=#2 #3 #4 #5,clip=true]{#1}%
+\end{center}%
+}
 
 \begin{document}
 
 \title{A note on hierarchical inference \& the distances to K giants}
 
-\author{Daniel~Foreman-Mackey\altaffilmark{\ref{CCPP},\ref{email}} \etal}
+\author{%
+    Daniel~Foreman-Mackey\altaffilmark{\ref{CCPP},\ref{email}}, %
+    David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{MPIA}}, %
+    \etal%
+}
 
 \newcounter{address}
 \setcounter{address}{1}
@@ -51,9 +62,9 @@
   University, 4 Washington Place, New York, NY 10003}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{email} To whom
   correspondence should be addressed: \texttt{danfm@nyu.edu}}
-% \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIA}
-%   Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, D-69117
-%   Heidelberg, Germany}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{MPIA}
+  Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, D-69117
+  Heidelberg, Germany}
 
 \begin{abstract}
 \end{abstract}
@@ -65,10 +76,57 @@
 
 \clearpage
 
-\section{The basic hierarchical problem}
+\section{The General Hierarchical Problem}
+
+To start, we will start by demonstrating a general hierarchical inference
+on the graphical model shown in \fig{gm-simple}. The factorization of the
+joint distribution implied by this model is
+\begin{equation}
+    \pr{\alpha, \{ w_n \}, \{ x_n \}} =
+        \pr{\alpha} \, \prod_{n=1}^N \pr{w_n | \alpha} \, \pr{x_n | w_n}
+        \quad.
+\end{equation}
+The physical interpretation of this model is something like: $\alpha$ is the
+\emph{hyperparameter} (or set of hyperparameters) that parameterize the
+physical theory of interest and $x \equiv \{ x_n \}$ is the set of
+observations---or objects (we will use both interchangeably---that will be
+used to constrain the model. DFM: talk a little bit more about what $x_n$ can
+be\ldots this will help with the generality argument. Each $x_n$ can (of
+course) be a vector or set of different observations (including experimental
+uncertainties). The parameter $w_n$ is called a \emph{latent variable} (or
+variables). The structure of the model asserts that the \emph{distribution}
+from which $x_n$ is drawn is fully parameterized by the setting of $w_n$.
+
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width=0.2\textwidth,
+            trim=2cm 18cm 16cm 3cm,
+            clip=true]{gm/gm.pdf}
+    \end{center}
+    \caption{A simple probabilistic model.\figlabel{gm-simple}}
+\end{figure}
+
+In many scientific problems, the $w_n$ are the ``model parameters'' that are
+learned by sampling or optimizing the posterior distribution $\pr{w_n | x_n}$
+for a particular observation $n$. The \emph{hierarchical} framework
+is used when a particular $w_n$---for example, the orbital parameters of
+\emph{one specific} exoplanet or the distance, luminosity and metallicity of
+a single K giant---are not (by themselves) an interesting scientific result.
+Instead, hierarchical inference is more concerned with learning the
+\emph{distribution} of physical parameters across an ensemble of objects.
+
+A little bit about why histograms are The Wrong Thing\ldots
+
+While this model seems very simplistic at first, the structure is actually
+very general. This is because both $\alpha$ and $w$ can have an arbitrarily
+large number of dimensions and the distribution $\pr{x_n | w_n}$ can be
+extremely complicated. In fact, under the assumption that the different
+observations (or objects) are independent, a huge class of exciting
+scientific research questions can be posed in terms of a hierarchical
+inference.
 
 
-\acknowledgements It is a pleasure to thank\ldots
+% \acknowledgements It is a pleasure to thank\ldots
 
 % \begin{thebibliography}{}\raggedright
 
