@@ -39,12 +39,6 @@
 \newcommand{\unit}[1]{\,\mathrm{#1}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
-\newcommand{\dfmplot}[5]{%
-\begin{center}%
-\includegraphics[width=0.5\textwidth,trim=#2 #3 #4 #5,clip=true]{#1}%
-\end{center}%
-}
-
 \begin{document}
 
 \title{A note on hierarchical inference \& the distances to K giants}
@@ -99,9 +93,7 @@ from which $x_n$ is drawn is fully parameterized by the setting of $w_n$.
 
 \begin{figure}[htbp]
     \begin{center}
-        \includegraphics[width=0.2\textwidth,
-            trim=2cm 18cm 16cm 3cm,
-            clip=true]{gm/gm.pdf}
+        \includegraphics[width=0.2\textwidth]{gm/gm.pdf}
     \end{center}
     \caption{A simple probabilistic model.\figlabel{gm-simple}}
 \end{figure}
@@ -113,7 +105,8 @@ is used when a particular $w_n$---for example, the orbital parameters of
 \emph{one specific} exoplanet or the distance, luminosity and metallicity of
 a single K giant---are not (by themselves) an interesting scientific result.
 Instead, hierarchical inference is more concerned with learning the
-\emph{distribution} of physical parameters across an ensemble of objects.
+\emph{distribution} of physical parameters across an ensemble of
+objects---the parameters $\alpha$ in this example.
 
 A little bit about why histograms are The Wrong Thing\ldots
 
@@ -124,6 +117,89 @@ extremely complicated. In fact, under the assumption that the different
 observations (or objects) are independent, a huge class of exciting
 scientific research questions can be posed in terms of a hierarchical
 inference.
+
+Discuss why the maximum likelihood values of $\alpha$ are what we want\ldots
+
+The standard result of a probabilistic analysis is (an approximation of) the
+posterior density function
+\begin{equation}
+    \pr{w_n | x_n, \alpha} \propto \pr{w_n | \alpha} \, \pr{x_n | w_n, \alpha}
+\end{equation}
+where $\pr{w_n | \alpha}$ is the prior on the parameters $w_n$ that is chosen
+by the researcher. The goal of hierarchical inference is to infer the
+maximum marginalized likelihood estimate (MMLE) of the parameters $\alpha$
+that is consistent with all the data $x \equiv \{ x_n \}$
+\begin{equation}
+    \alpha_\mathrm{ML} = \argmax_\alpha \pr{x | \alpha}
+\end{equation}
+or equivalently
+\begin{equation} \eqlabel{max-like}
+    \alpha_\mathrm{ML} = \argmax_\alpha \log \pr{x | \alpha}
+        = \argmax_\alpha \ell (\alpha)
+\end{equation}
+where $\ell (\alpha)$ is the log-marginalized-likelihood. MMLE is called
+``marginalized'' because
+\begin{equation} \eqlabel{marginalized-like}
+    \pr{x | \alpha} = \int \pr{x, w | \alpha} \dd w
+        = \int \prod_{n = 1} ^N  \pr{x_n, w_n | \alpha} \dd w_n
+        = \prod_{n = 1} ^N \left [ \int \pr{x_n, w_n | \alpha} \dd w_n
+            \right ]
+\end{equation}
+involves a marginalization over the specific latent parameters of observation
+$n$. In practice, this marginalization is not generally tractable
+analytically and it will be done using costly numerical procedures like
+Markov chain Monte Carlo (MCMC). Furthermore, the maximization in
+\eq{max-like} must also be performed numerically using an algorithm like
+gradient descent or expectation-maximization (EM). This becomes quickly
+intractable because each evaluation of $\ell (\alpha)$ (or its gradient)
+involves the expensive marginalization from \eq{marginalized-like}.
+
+\paragraph{Expectation-maximization and importance sampling}
+A common ``dataset'' used for hierarchical inference is a set of $J$ samples
+\begin{equation}
+    w^{(j)} = \{ w_n ^{(j)} \}
+\end{equation}
+drawn from the posterior distribution
+\begin{equation}
+    \pr{w_n | x_n, \alpha^{(0)}}
+        \propto \pr{w_n | \alpha^{(0)}} \, \pr{x_n | w_n, \alpha^{(0)}}
+\end{equation}
+and a functional form---either informative or uninformative---for the prior
+density that was chosen by some other experimenter or team
+\begin{equation}
+    \pr{w_n | \alpha^{(0)}} \quad.
+\end{equation}
+Using these samples, we would like to infer the MMLE values for $\alpha$
+that is consistent with the entire dataset using only the samples that
+we are given. The key insight here is that \eq{marginalized-like} can be
+written
+\begin{eqnarray}
+    \pr{x | \alpha}
+        &=& \prod_{n = 1} ^N \int \pr{x_n, w_n | \alpha} \dd w_n \\
+        &=& \prod_{n = 1} ^N \int \pr{x_n | w_n} \, \pr{w_n | \alpha} \dd w_n \\
+        &=& \prod_{n = 1} ^N \int
+            \left [ \frac{\pr{x_n | \alpha^{(0)}} \,
+                \pr{w_n | x_n, \alpha^{(0)}}}{\pr{w_n | \alpha^{(0)}}}  \right ]
+            \, \pr{w_n | \alpha} \dd w_n \quad.
+\end{eqnarray}
+Then, we can neglect the term $\pr{x_n | \alpha^{(0)}}$ since it doesn't
+depend on either $\alpha$ or $w_n$ and get
+\begin{equation}
+    \pr{x | \alpha} \propto \prod_{n = 1} ^N \int \pr{w_n | x_n, \alpha^{(0)}}
+        \, \frac{\pr{w_n | \alpha}}{\pr{w_n | \alpha^{(0)}}} \dd w_n \quad.
+\end{equation}
+Finally, using the samples $w^{(j)}$, we get
+\begin{equation}
+    \pr{x | \alpha} \sim \prod_{n = 1} ^N \frac{1}{J} \sum_{j=1}^{J}
+        \frac{\pr{w_n^{(j)} | \alpha}}{\pr{w_n^{(j)} | \alpha^{(0)}}} \quad.
+\end{equation}
+Substituting this into \eq{max-like}, we find
+\begin{equation}
+    \alpha_\mathrm{ML} = \argmax_\alpha \sum_{n=1}^N \log \sum_{j=1}^{J}
+        \frac{\pr{w_n^{(j)} | \alpha}}{\pr{w_n^{(j)} | \alpha^{(0)}}}
+\end{equation}
+where the term inside the inner sum is just the importance sampled
+marginalized likelihoods of the $w_n^{(j)}$ given a proposal $\alpha$.
 
 
 % \acknowledgements It is a pleasure to thank\ldots
