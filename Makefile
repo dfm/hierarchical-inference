@@ -2,7 +2,7 @@ include Makefile.inc
 
 # Enter the name(s) of the .tex file(s) that you want to compile.
 TEX_FILES = hierarchical
-DIRS      = gm
+DIRS      = gm-simple
 
 # You shouldn't need to edit below here.
 default: subdirs ${DOCS}

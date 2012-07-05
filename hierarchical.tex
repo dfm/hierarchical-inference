@@ -93,7 +93,7 @@ from which $x_n$ is drawn is fully parameterized by the setting of $w_n$.
 
 \begin{figure}[htbp]
     \begin{center}
-        \includegraphics[width=0.2\textwidth]{gm/gm.pdf}
+        \includegraphics[width=0.2\textwidth]{gm/gm-simple.pdf}
     \end{center}
     \caption{A simple probabilistic model.\figlabel{gm-simple}}
 \end{figure}
@@ -176,30 +176,50 @@ written
 \begin{eqnarray}
     \pr{x | \alpha}
         &=& \prod_{n = 1} ^N \int \pr{x_n, w_n | \alpha} \dd w_n \\
-        &=& \prod_{n = 1} ^N \int \pr{x_n | w_n} \, \pr{w_n | \alpha} \dd w_n \\
+        &=& \prod_{n = 1} ^N \int \pr{x_n | w_n} \, \pr{w_n | \alpha} \dd w_n
+    \quad.
+\end{eqnarray}
+Because of the factorization implied by \fig{gm-simple}, this can be
+rewritten as
+\begin{eqnarray}
+    \pr{x | \alpha}
         &=& \prod_{n = 1} ^N \int
             \left [ \frac{\pr{x_n | \alpha^{(0)}} \,
                 \pr{w_n | x_n, \alpha^{(0)}}}{\pr{w_n | \alpha^{(0)}}}  \right ]
             \, \pr{w_n | \alpha} \dd w_n \quad.
 \end{eqnarray}
-Then, we can neglect the term $\pr{x_n | \alpha^{(0)}}$ since it doesn't
-depend on either $\alpha$ or $w_n$ and get
-\begin{equation}
-    \pr{x | \alpha} \propto \prod_{n = 1} ^N \int \pr{w_n | x_n, \alpha^{(0)}}
-        \, \frac{\pr{w_n | \alpha}}{\pr{w_n | \alpha^{(0)}}} \dd w_n \quad.
-\end{equation}
+Then, we can pull the term $\pr{x_n | \alpha^{(0)}}$ out of the integral
+\begin{eqnarray}
+    \pr{x | \alpha} &=& \prod_{n = 1}^N \pr{x_n | \alpha^{(0)}}
+        \int \pr{w_n | x_n, \alpha^{(0)}}
+        \, \frac{\pr{w_n | \alpha}}{\pr{w_n | \alpha^{(0)}}} \dd w_n \\
+    &=& Z(x, \alpha^{(0)}) \, \prod_{n = 1}^N
+        \int \pr{w_n | x_n, \alpha^{(0)}}
+        \, \frac{\pr{w_n | \alpha}}{\pr{w_n | \alpha^{(0)}}} \dd w_n
+\end{eqnarray}
+where $Z(x, \alpha^{(0)})$ is called the \emph{evidence} and for our
+purposes---the maximization in \eq{max-like}---it is just a constant.
 Finally, using the samples $w^{(j)}$, we get
 \begin{equation}
-    \pr{x | \alpha} \sim \prod_{n = 1} ^N \frac{1}{J} \sum_{j=1}^{J}
+    \pr{x | \alpha} \approx Z(x, \alpha^{(0)}) \, \prod_{n = 1}^N
+        \frac{1}{J} \sum_{j=1}^{J}
         \frac{\pr{w_n^{(j)} | \alpha}}{\pr{w_n^{(j)} | \alpha^{(0)}}} \quad.
 \end{equation}
 Substituting this into \eq{max-like}, we find
 \begin{equation}
-    \alpha_\mathrm{ML} = \argmax_\alpha \sum_{n=1}^N \log \sum_{j=1}^{J}
+    \alpha_\mathrm{ML} \approx \argmax_\alpha \sum_{n=1}^N \log \sum_{j=1}^{J}
         \frac{\pr{w_n^{(j)} | \alpha}}{\pr{w_n^{(j)} | \alpha^{(0)}}}
 \end{equation}
 where the term inside the inner sum is just the importance sampled
 marginalized likelihoods of the $w_n^{(j)}$ given a proposal $\alpha$.
+
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width=0.2\textwidth]{gm/gm-hw.pdf}
+    \end{center}
+    \caption{K giant PGM.\figlabel{gm-hw}}
+\end{figure}
+
 
 
 % \acknowledgements It is a pleasure to thank\ldots
