@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-TEX_FILES = gm
+TEX_FILES = gm-simple gm-hw
 
 default: ${DOCS}
 

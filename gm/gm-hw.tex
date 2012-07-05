@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{ifthen}
+\usepackage{pst-all}
+\usepackage{auto-pst-pdf}
+\usepackage{com.braju.graphicalmodels}
+\catcode`\@=11%
+\pagestyle{empty}
+\begin{document}
+
+\newlength{\gmunit}
+\setlength{\gmunit}{12mm}
+
+\TeXtoEPS
+\psset{unit=\gmunit,arrowscale=1.5}
+\SpecialCoor
+
+% node utils
+\newcommand{\node}[4]{\rput(#1){\GM@node[nodeSize=\gmunit]{#3}}%
+    \GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\dnode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit]{#3}}%
+    \rput(#1){\GM@node[nodeSize=0.9\gmunit]{nil}}%
+    \GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\onode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit,observed=true,%
+    observedColor=lightgray]{#3}}\GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\qnode}[4]{\rput(#1){\GM@node[nodeSize=\gmunit,query=true]{#3}}%
+    \GM@label[offset=#2\gmunit]{#3}{#4}}
+\newcommand{\darr}[2]{\ncline[arrows=->]{#1}{#2}}
+
+\begin{pspicture}(0,0)(15,15)
+% \showgrid
+
+\node{1,11}{-0.2}{adist}{$\alpha_D$}
+\node{1,7}{-0.1}{dist}{$D$}
+
+\node{7,11}{-0.2}{alum}{$\alpha_L$}
+\node{7,7}{-0.1}{lum}{$L$}
+
+\node{5,11}{-0.2}{amet}{$\alpha_\theta$}
+\node{5,9}{-0.1}{met}{$\Theta$}
+\node{5,7}{-0.1}{z}{$Z$}
+\dnode{5,5}{-0.1}{sed}{$S$}
+\dnode{5,3}{-0.1}{m}{$m$}
+
+\onode{3,7}{-0.1}{zsig}{$\hat{\sigma}_Z$}
+\onode{4,6}{-0.1}{zobs}{$\hat{Z}$}
+
+\onode{6,2}{-0.2}{msig}{$\hat{\sigma}_m$}
+\onode{5,1}{-0.1}{mobs}{$\hat{m}$}
+
+\darr{adist}{dist}
+\darr{dist}{m}
+
+\darr{alum}{lum}
+\darr{lum}{sed}
+
+\darr{amet}{met}
+\darr{met}{z}
+\darr{z}{sed}
+\darr{sed}{m}
+
+\darr{z}{zobs}
+\darr{zsig}{zobs}
+
+\darr{m}{mobs}
+\darr{msig}{mobs}
+
+\rput(0,0){\GM@plate[plateLabelPos=bl]{8}{10}{\hspace{0.5cm}$n = 1, \ldots, N$}}
+
+\end{pspicture}
+\endTeXtoEPS
+\end{document}
