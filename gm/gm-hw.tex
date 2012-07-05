@@ -30,28 +30,34 @@
 % \showgrid
 
 \node{1,11}{-0.2}{adist}{$\alpha_D$}
-\node{1,7}{-0.1}{dist}{$D$}
+\node{1,9}{-0.1}{dist}{$D$}
 
-\node{7,11}{-0.2}{alum}{$\alpha_L$}
-\node{7,7}{-0.1}{lum}{$L$}
+\node{3,11}{-0.2}{alum}{$\alpha_L$}
+\node{3,8}{-0.1}{lum}{$L$}
 
-\node{5,11}{-0.2}{amet}{$\alpha_\theta$}
-\node{5,9}{-0.1}{met}{$\Theta$}
-\node{5,7}{-0.1}{z}{$Z$}
+\node{5,11}{-0.2}{as}{$\alpha_S$}
+
+\node{7,11}{-0.2}{amet}{$\alpha_\theta$}
+\node{7,9}{-0.1}{met}{$\Theta$}
+\node{7,7}{-0.1}{z}{$Z$}
 \dnode{5,5}{-0.1}{sed}{$S$}
 \dnode{5,3}{-0.1}{m}{$m$}
 
-\onode{3,7}{-0.1}{zsig}{$\hat{\sigma}_Z$}
-\onode{4,6}{-0.1}{zobs}{$\hat{Z}$}
+\onode{9,7}{-0.1}{zsig}{$\hat{\sigma}_Z$}
+\onode{8,6}{-0.1}{zobs}{$\hat{Z}$}
 
 \onode{6,2}{-0.2}{msig}{$\hat{\sigma}_m$}
 \onode{5,1}{-0.1}{mobs}{$\hat{m}$}
 
+\darr{dist}{met}
+\darr{dist}{lum}
 \darr{adist}{dist}
 \darr{dist}{m}
 
 \darr{alum}{lum}
 \darr{lum}{sed}
+
+\darr{as}{sed}
 
 \darr{amet}{met}
 \darr{met}{z}
@@ -64,7 +70,7 @@
 \darr{m}{mobs}
 \darr{msig}{mobs}
 
-\rput(0,0){\GM@plate[plateLabelPos=bl]{8}{10}{\hspace{0.5cm}$n = 1, \ldots, N$}}
+\rput(0,0){\GM@plate[plateLabelPos=bl]{10}{10}{\hspace{0.5cm}$n = 1, \ldots, N$}}
 
 \end{pspicture}
 \endTeXtoEPS
